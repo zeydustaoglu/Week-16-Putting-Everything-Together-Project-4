@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include partials/head %>
+</head>
+
+<body>
+    <div class="container">
+        <% include partials/menu %>
+        <div class="container-fluid bg-3 text-center">
+            <br><br>
+            <h3><%= page %></h3><br>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                            role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                        <a class="nav-link" id="v-pills-orders-tab" data-toggle="pill" href="#v-pills-orders" role="tab"
+                            aria-controls="v-pills-orders" aria-selected="false">Orders</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
+                            role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div style="background-color: transparent" class="tab-pane fade show active"
+                            id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <ul class="list-group">
+                                <li class="list-group-item">Company Name: <%= customer.companyName %></li>
+                                <li class="list-group-item">E-Mail: <%= customer.email %></li>
+                                <li class="list-group-item">Adres: <%= customer.adres %></li>
+                                <li class="list-group-item">Password: <%= customer.password %></li>
+                                <li class="list-group-item">Phone: <%= customer.phoneNumber %></li>
+                            </ul>
+                        </div>
+                        <div style="background-color: transparent" class="tab-pane fade" id="v-pills-orders"
+                            role="tabpanel" aria-labelledby="v-pills-orders-tab">
+                            <ul class="list-group">
+
+                                <% if(orders.length !== 0){ %>
+                                <% orders.forEach(function(item){   %>
+                                <li class="list-group-item">
+                                    <h5> Product Name: <%= item.productName %></h5>
+                                    Piece:<%= item.piece %><br>
+                                    Date: <%= item.date %><br>
+                                    Amount: <%= item.amount %> €<br><br>
+
+                                    <form action="/del-order" method="post">
+                                        <input type="text" style="display: none" name="orderId" value="<%= item._id %>">
+                                        <input type="text" style="display: none" name="companyName"
+                                        value="<%= customer.companyName %>">
+                                        <button type="submit" style="width:12%" class="btn btn-danger"> Delete</button>
+                                    </form>
+
+                                </li>
+                                <% }) %>
+                                <% } %>
+
+                            </ul>
+                            <br>
+                            <h4>Add new order..</h4>
+                            <br>
+                            <form action="/add-order" method="POST">
+                                <div class="row">
+                                    <div class="form-group col-md-4">        
+
+                                        <select id="inputState" name="productName" class="form-control">
+                                            <% products.forEach(function(item){   %>
+                                            <option value="<%= item.productName %>" ><%= item.productName %></option>
+                                            <% }) %>
+                                        </select>
+                                        <input type="text" style="display: none" name="companyName"
+                                        value="<%= customer.companyName %>">
+                                    </div>
+                                    <!-- <div class="col-md-3">
+                                        <input type="text" class="form-control" name="productName"
+                                            placeholder="Product">                                       
+                                    </div> -->
+                                    <div class="col-md-4">
+                                        <input type="number" class="form-control" name="piece" placeholder="Piece">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" style="width: 100%" class="btn btn-success"> Add </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div style="background-color: transparent" class="tab-pane fade" id="v-pills-messages"
+                            role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+                        </div>
+                        <div style="background-color: transparent" class="tab-pane fade" id="v-pills-settings"
+                            role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+</body>
+</div>
+<% include partials/script %>
+
+</html>
